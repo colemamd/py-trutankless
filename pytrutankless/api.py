@@ -152,11 +152,3 @@ class TruTanklessApiInterface:
                 raise err
             finally:
                 await _location_session.close()
-
-if __name__ == "__main__":
-
-    # test = asyncio.run(TruTanklessApiInterface.login(email="mdcoleman001@gmail.com", password="k9oAEmdEwVrJ8V"))
-    session = asyncio.run(TruTanklessApiInterface.login(email="mdcoleman001@gmail.com", password="k9oAEmdEwVrJ8V"))
-
-    asyncio.run(session.get_devices())
-    asyncio.run(session.refresh_device("1061"))
