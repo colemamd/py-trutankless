@@ -35,7 +35,7 @@ class TruTanklessApiInterface:
         self._access_token: str
         self._token_type: str
         self._customer_id: str
-        self._unique_id: str
+        self._unique_id: int
         self._user_id: str
         self._locations: List = {}
         self._devices: Dict = {}
@@ -76,12 +76,12 @@ class TruTanklessApiInterface:
                     if token_resp.status == 200:
                         _token_json = await token_resp.json()
                         _LOGGER.debug(_token_json)
-                        self._access_token = _token_json["access_token"]
-                        self._token_type = _token_json["token_type"].capitalize()
-                        #TODO Generate a UID for use as unique id in HA. access_token + refresh_token?
-                        # self._unique_id = 
+                        _access_token = _token_json["access_token"]
+                        _refresh_token = _token_json["refresh_token"]
+                        self._access_token = _access_token
+                        self._token_type = _token_json["token_type"].capitalize()                        
                         self._user_id = _token_json["user_id"]
-
+                        self._unique_id = int(_access_token, 16) + int(_refresh_token, 16)
                         await _session.close()
                     elif token_resp.status == 401:
                         raise InvalidCredentialsError(token_resp.status)
