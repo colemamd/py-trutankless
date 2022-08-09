@@ -77,11 +77,9 @@ class TruTanklessApiInterface:
                         _token_json = await token_resp.json()
                         _LOGGER.debug(_token_json)
                         _access_token = _token_json["access_token"]
-                        _refresh_token = _token_json["refresh_token"]
                         self._access_token = _access_token
                         self._token_type = _token_json["token_type"].capitalize()                        
                         self._user_id = _token_json["user_id"]
-                        self._unique_id = int(_access_token, 16) + int(_refresh_token, 16)
                         await _session.close()
                     elif token_resp.status == 401:
                         raise InvalidCredentialsError(token_resp.status)
@@ -140,7 +138,6 @@ class TruTanklessApiInterface:
                         _ind = len(_json) - 1
                         while _ind >= 0:
                             self._customer_id = _json[_ind]["customer_id"]
-                            # self._location_id = _json[_ind]["id"]
                             self._locations[_ind] = _json[_ind]
                             _ind -= 1
                         return self._locations
