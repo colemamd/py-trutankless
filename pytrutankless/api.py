@@ -35,6 +35,7 @@ class TruTanklessApiInterface:
         self._access_token: str
         self._token_type: str
         self._customer_id: str
+        self._unique_id: str
         self._user_id: str
         self._locations: List = {}
         self._devices: Dict = {}
@@ -48,6 +49,11 @@ class TruTanklessApiInterface:
     def locations(self) -> List[Dict]:
         """Return a list of locations as json objects."""
         return self._locations
+
+    @property
+    def uid(self) -> str:
+        """Return the unique id of the device."""
+        return self._unique_id
 
     @property
     def user_id(self) -> str:
@@ -72,7 +78,10 @@ class TruTanklessApiInterface:
                         _LOGGER.debug(_token_json)
                         self._access_token = _token_json["access_token"]
                         self._token_type = _token_json["token_type"].capitalize()
+                        #TODO Generate a UID for use as unique id in HA. access_token + refresh_token?
+                        # self._unique_id = 
                         self._user_id = _token_json["user_id"]
+
                         await _session.close()
                     elif token_resp.status == 401:
                         raise InvalidCredentialsError(token_resp.status)
