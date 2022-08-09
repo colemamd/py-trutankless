@@ -33,27 +33,21 @@ class TruTanklessApiInterface:
         self.email: str = email
         self.password: str = password
         self._access_token: str
+        self._location_id: str
         self._token_type: str
-        self._customer_id: str
-        self._unique_id: int
         self._user_id: str
         self._locations: List = {}
         self._devices: Dict = {}
 
     @property
-    def customer_id(self) -> str:
+    def location_id(self) -> str:
         """Return the customer id."""
-        return self._customer_id
+        return self._location_id
     
     @property
     def locations(self) -> List[Dict]:
         """Return a list of locations as json objects."""
         return self._locations
-
-    @property
-    def uid(self) -> str:
-        """Return the unique id of the device."""
-        return self._unique_id
 
     @property
     def user_id(self) -> str:
