@@ -43,11 +43,6 @@ class TruTanklessApiInterface:
     def location_id(self) -> str:
         """Return the customer id."""
         return self._location_id
-    
-    @property
-    def locations(self) -> List[Dict]:
-        """Return a list of locations as json objects."""
-        return self._locations
 
     @property
     def user_id(self) -> str:
@@ -86,12 +81,10 @@ class TruTanklessApiInterface:
 
     async def get_devices(self) -> None:
         """Get a list of all the devices for this user and instantiate device objects."""
-        _locations: Dict = await self._get_locations()
-        for _locindex in _locations:
-            _location = _locations[_locindex]
-            for _devlist in _location.get("devices"):
-                _dev_obj = Device(_devlist, self)
-                self._devices[_dev_obj.device_id] = _dev_obj 
+        await self._get_locations()
+        for _devlist in self._locations.get("devices"):
+            _dev_obj = Device(_devlist, self)
+            self._devices[_dev_obj.device_id] = _dev_obj 
 
     async def refresh_device(self, device: str) -> Dict:
         """Fetch updated data for a device."""
@@ -129,12 +122,15 @@ class TruTanklessApiInterface:
                     if resp.status == 200:
                         _json = await resp.json()
                         _LOGGER.debug(_json)
-                        _ind = len(_json) - 1
-                        while _ind >= 0:
-                            self._customer_id = _json[_ind]["customer_id"]
-                            self._locations[_ind] = _json[_ind]
-                            _ind -= 1
-                        return self._locations
+                        for _ind in _json:
+                            self._customer_id = _ind["customer_id"]
+                            self._locations = _ind
+                        # _ind = len(_json) - 1
+                        # while _ind >= 0:
+                        #     self._customer_id = _json[_ind]["customer_id"]
+                        #     self._locations[_ind] = _json[_ind]
+                        #     _ind -= 1
+                        # return self._locations
                     elif resp.status == 401:
                         raise InvalidCredentialsError(resp.status)
                     else:
