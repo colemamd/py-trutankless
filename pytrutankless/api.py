@@ -84,7 +84,8 @@ class TruTanklessApiInterface:
         await self._get_locations()
         for _devlist in self._locations.get("devices"):
             _dev_obj = Device(_devlist, self)
-            self._devices[_dev_obj.device_id] = _dev_obj 
+            self._devices[_dev_obj.device_id] = _dev_obj
+            self._location_id = _dev_obj.location_id
 
     async def refresh_device(self, device: str) -> Dict:
         """Fetch updated data for a device."""
@@ -125,12 +126,6 @@ class TruTanklessApiInterface:
                         for _ind in _json:
                             self._customer_id = _ind["customer_id"]
                             self._locations = _ind
-                        # _ind = len(_json) - 1
-                        # while _ind >= 0:
-                        #     self._customer_id = _json[_ind]["customer_id"]
-                        #     self._locations[_ind] = _json[_ind]
-                        #     _ind -= 1
-                        # return self._locations
                     elif resp.status == 401:
                         raise InvalidCredentialsError(resp.status)
                     else:
@@ -139,3 +134,11 @@ class TruTanklessApiInterface:
                 raise err
             finally:
                 await _location_session.close()
+
+if __name__ == "__main__":
+
+    # test = asyncio.run(TruTanklessApiInterface.login(email="mdcoleman001@gmail.com", password="k9oAEmdEwVrJ8V"))
+    session = asyncio.run(TruTanklessApiInterface.login(email="mdcoleman001@gmail.com", password="k9oAEmdEwVrJ8V"))
+
+    asyncio.run(session.get_devices())
+    asyncio.run(session.refresh_device("1061")) 
