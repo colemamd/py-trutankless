@@ -22,7 +22,7 @@ setup(
         "Programming Language :: Python :: 3.10",
     ],
     license="MIT",
-    install_requires=list(val.strip() for val in open("requirements.txt")),
+    install_requires="aiohttp",
     packages=find_packages(exclude=["dist", "*.test", "*.test.*", "test.*", "test"]),
     zip_safe=True,
     project_urls={
