@@ -1,17 +1,14 @@
 import asyncio
-from aiohttp import ClientSession
-import aiohttp
-from aiohttp.client_exceptions import ClientError
-
 import logging
 from typing import Dict, List, Type, TypeVar
 
+import aiohttp
+from aiohttp import ClientSession
+from aiohttp.client_exceptions import ClientError
+
 from pytrutankless.device import Device
-from pytrutankless.errors import (
-    GenericHTTPError,
-    InvalidCredentialsError,
-    TruTanklessError,
-)
+from pytrutankless.errors import (GenericHTTPError, InvalidCredentialsError,
+                                  TruTanklessError)
 
 BASE_URL = f"https://home.trutankless.com/"
 DEVICES_URL = f"{BASE_URL}api/dashboard/devices/"
