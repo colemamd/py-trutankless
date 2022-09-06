@@ -11,8 +11,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/colemamd/pytrutankless",
-    author="Matt Coleman",
-    author_email="mdcoleman001@gmail.com",
+    author="@colemamd",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",
@@ -23,7 +22,7 @@ setup(
         "Programming Language :: Python :: 3.10",
     ],
     license="MIT",
-    install_requires="aiohttp>=3.6.0",
+    install_requires=list(val.strip() for val in open("requirements.txt")),
     packages=find_packages(exclude=["dist", "*.test", "*.test.*", "test.*", "test"]),
     zip_safe=True,
     project_urls={
