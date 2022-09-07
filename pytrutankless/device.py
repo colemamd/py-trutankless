@@ -60,22 +60,30 @@ class Device:
     @property
     def inlet_temperature(self) -> str:
         """Return device inlet temperature."""
-        return self._device_info["current_data"]["inlet_temperature"]
+        in_temp = float(self._device_info["current_data"]["inlet_temperature"])
+        return in_temp
 
     @property
     def outlet_temperature(self) -> str:
         """Return device outlet temperature."""
-        return self._device_info["current_data"]["outlet_temperature"]
+        out_temp = float(self._device_info["current_data"]["outlet_temperature"])
+        return out_temp
 
     @property
     def temperature_set_point(self) -> str:
         """Return device temperature set point."""
-        return self._device_info["current_data"]["temperature_set_point"]
+        temp_set = round(
+            float(self._device_info["current_data"]["temperature_set_point"]), 2
+        )
+        return temp_set
 
     @property
     def pending_temperature_set_point(self) -> str:
         """Return device pending temperature set point."""
-        return self._device_info["current_data"]["pending_temperature_set_point"]
+        pend_temp = round(
+            float(self._device_info["current_data"]["pending_temperature_set_point"]), 2
+        )
+        return pend_temp
 
     @property
     def error_code(self) -> str:
@@ -90,12 +98,14 @@ class Device:
     @property
     def pcb_temp(self) -> str:
         """Return the pcb temperature of the device."""
-        return self._device_info["current_data"]["pcb_temp"]
+        board_temp = float(self._device_info["current_data"]["pcb_temp"])
+        return board_temp
 
     @property
     def power_percentage(self) -> str:
         """Return device power percentage."""
-        return self._device_info["current_data"]["power_percentage"]
+        pow_perc = float(self._device_info["current_data"]["power_percentage"])
+        return pow_perc
 
     @property
     def total_flow(self) -> str:
