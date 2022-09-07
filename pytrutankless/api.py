@@ -1,4 +1,3 @@
-import asyncio
 import logging
 from typing import Dict, List, Type, TypeVar
 
@@ -7,10 +6,12 @@ from aiohttp import ClientSession
 from aiohttp.client_exceptions import ClientError
 
 from pytrutankless.device import Device
-from pytrutankless.errors import (GenericHTTPError, InvalidCredentialsError,
-                                  TruTanklessError)
+from pytrutankless.errors import (
+    GenericHTTPError,
+    InvalidCredentialsError,
+)
 
-BASE_URL = f"https://home.trutankless.com/"
+BASE_URL = "https://home.trutankless.com/"
 DEVICES_URL = f"{BASE_URL}api/dashboard/devices/"
 LOCATIONS_URL = f"{BASE_URL}api/dashboard/locations"
 TOKEN_URL = f"{BASE_URL}api/dash-oauth/token"
@@ -85,7 +86,6 @@ class TruTanklessApiInterface:
 
     async def refresh_device(self, device: str) -> Dict:
         """Fetch updated data for a device."""
-
         async with ClientSession() as _refresh_session:
             _device_url = f"{DEVICES_URL}{device}"
             try:
@@ -94,7 +94,7 @@ class TruTanklessApiInterface:
                 ) as refr:
                     if refr.status == 200:
                         _refdata = await refr.json()
-                        _LOGGER.debug(f"Retrieved updated data from API: {_refdata}")
+                        _LOGGER.debug("Retrieved updated data from API: %s", _refdata)
                         dev_obj = self.devices.get(_refdata.get("id", ""), None)
                         if dev_obj:
                             await dev_obj.update_device_info(_refdata)
