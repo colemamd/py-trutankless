@@ -30,7 +30,7 @@ class TruTanklessApiInterface:
 
     def __init__(self) -> None:
         """Create the TruTankless API interface object."""
-        self._headers: str = HEADERS
+        self._headers: dict = HEADERS
         self._location_id: str
         self._user_id: str
         self._locations: List = {}
@@ -83,9 +83,9 @@ class TruTanklessApiInterface:
         for _devlist in self._locations["devices"]:
             _dev_obj = Device(_devlist, self)
             self.devices[_dev_obj.device_id] = _dev_obj
-            return self.devices
+        return self.devices
 
-    async def refresh_device(self, device: str) -> Dict:
+    async def refresh_device(self, device: str):
         """Fetch updated data for a device."""
         async with ClientSession() as _refresh_session:
             _device_url = f"{DEVICES_URL}{device}"
@@ -106,7 +106,7 @@ class TruTanklessApiInterface:
                 await _refresh_session.close()
             return dev_obj
 
-    async def _get_locations(self) -> Dict:
+    async def _get_locations(self):
         async with ClientSession() as _location_session:
             try:
                 async with _location_session.get(
