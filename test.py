@@ -3,31 +3,29 @@ import logging
 import getpass
 
 from pytrutankless.api import TruTanklessApiInterface
-from pytrutankless.device import Device
-
-logging.basicConfig()
-logging.getLogger().setLevel(logging.DEBUG)
 
 
 async def main():
-    email = "youremail@here"
-    password = "account_password"
+    email = "your@email.here"
+    password = "password"
     # email = input("Enter your email: ").strip()
     # password = getpass.getpass(prompt="Enter your password: ")
-    api = await TruTanklessApiInterface.login(email, password)
-    # await api.get_devices()
-    # await api.refresh_device("1061")
+    this_api = TruTanklessApiInterface(user=email, passwd=password)
+    this_token = await this_api.authenticate()
+    # print(api)
+    await this_api.get_devices()
+    await this_api.refresh_device("1061")
     # print(f"All Locations: {api._locations}")
     # print(f"Get Devices: {api._devices}")
 
-    await api.get_devices()
+    # await api.get_devices()
 
-    test_device = Device(api.devices)
+    # test_device = Device(api.devices)
 
-    for dev_id in api.devices.keys():
-        await api.refresh_device(dev_id)
-        dev_obj = api.devices[dev_id]
-        print(dev_obj.get("serial_number"))
+    # for dev_id in api.devices.keys():
+    #     await api.refresh_device(dev_id)
+    #     dev_obj = api.devices[dev_id]
+    #     print(dev_obj.get("serial_number"))
 
 
 if __name__ == "__main__":
