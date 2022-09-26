@@ -1,14 +1,18 @@
+
 from __future__ import annotations
 from datetime import datetime, timezone
+
 import logging
 from typing import Dict, Optional
 
 from aiohttp import ClientSession
 
+
 from .device import Device
 from .token import Token
 
 _LOGGER = logging.getLogger(__name__)
+
 
 BASE_URL = "https://home.trutankless.com/"
 DEVICES_URL = f"{BASE_URL}api/dashboard/devices/"
@@ -95,7 +99,7 @@ class TruTanklessApiInterface:
         for _devlist in self._locations[0]["devices"]:
             _dev_obj = Device(_devlist, self)
             self.devices[_dev_obj.device_id] = _dev_obj
-            return self.devices
+        return self.devices
 
     async def refresh_device(self, device: str):
         """Fetch updated data for a device."""
@@ -117,6 +121,7 @@ class TruTanklessApiInterface:
             if resp.status == 200:
                 self._locations = await resp.json()
                 _LOGGER.debug(self._locations)
+
 
     @property
     def user_id(self) -> str:
