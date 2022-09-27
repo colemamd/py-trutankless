@@ -1,9 +1,8 @@
-
 from __future__ import annotations
 from datetime import datetime, timezone
 
 import logging
-from typing import Dict, Optional
+from typing import Dict
 
 from aiohttp import ClientSession
 
@@ -67,7 +66,6 @@ class TruTanklessApiInterface:
         self,
         user: str,
         passwd: str,
-        token: Optional[Token] = None,
     ) -> None:
         """Create the TruTankless API interface object."""
         self._headers: dict = HEADERS
@@ -78,7 +76,7 @@ class TruTanklessApiInterface:
         self._passwd = passwd
         self.devices: Dict = {}
         self.session = ClientSession()
-        self.token = token
+        self.token: Token
 
     async def authenticate(self) -> Token:
         """Return valid access token."""
@@ -121,7 +119,6 @@ class TruTanklessApiInterface:
             if resp.status == 200:
                 self._locations = await resp.json()
                 _LOGGER.debug(self._locations)
-
 
     @property
     def user_id(self) -> str:
