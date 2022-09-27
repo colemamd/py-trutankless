@@ -1,12 +1,12 @@
 import re
-from setuptools import setup, find_packages
 import pathlib
+from setuptools import setup, find_packages
 
 with open("README.md") as f:
     readme = f.read()
 
-with open("requirements.txt", encoding="utf-8") as f:
-    install_requires = f.read().splitlines()
+# with open("requirements.txt", encoding="utf-8") as f:
+# install_requires = f.read().splitlines()
 
 
 with open("pytrutankless/__init__.py", encoding="utf-8") as f:
@@ -34,7 +34,7 @@ setup(
         "Programming Language :: Python :: 3.10",
     ],
     license="MIT",
-    install_requires=install_requires,
+    install_requires="requirements.txt",
     packages=find_packages(
         exclude=["dist", "*.test", "*.test.*", "test.*", "test"]
     ),
