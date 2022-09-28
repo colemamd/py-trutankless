@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 from datetime import datetime, timezone
 
@@ -121,7 +120,6 @@ class TruTanklessApiInterface:
             if resp.status == 200:
                 self._locations = await resp.json()
                 _LOGGER.debug(self._locations)
-
 
     @property
     def user_id(self) -> str:

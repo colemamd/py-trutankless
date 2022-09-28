@@ -10,24 +10,43 @@ pip install pytrutankless
 
 ## Usage
 
+In order to obtain an auth token, a TruTanklessApi object must be instantiated and `api.authenticate` must be called.
+
 ```python
-from pytrutankles.api import TruTanklessApiInterface
+from pytrutankles.api import TruTanklessApiInterface(username, password, token[Optional])
 
-email = "your_email"
-password = "your_password"
+email = "your@email.here"
+password = "yoursecrethere"
 
-api = await TruTanklessApiInterface.login(email, password)
+api = await TruTanklessApiInterface(user=email, passwd=password)
+auth = api.authenticate()
 ```
+
+A Token object with the following parameters is returned;
+
+```json
+{
+  "access_token": "str",
+  "token_type": "str",
+  "expires_in": "int",
+  "expires_at": "datetime",
+  "refresh_token": "str",
+  "user_id": "str"
+}
+```
+
+If a `Token` object is provided, it will be used for authentification unless expired. If the given `Token` is expired, a new one is retrieved from the API.
 
 ### Methods
 
-### `login(email, password)`
+### `authenticate()`
 
 ```
-api.login(email, password)
+api.authenticate()
+retun Token
 ```
 
-Given email and password, logs into service and retrieves `access_token`
+Logs into service and retrieves `access_token`.
 
 ### `get_devices()`
 
@@ -35,7 +54,8 @@ Given email and password, logs into service and retrieves `access_token`
 api.get_devices()
 ```
 
-Updates list of locations and devices. Returns dictionary of device objects.
+Updates dictionaries of locations and devices.
+Returns a dict of location(s) that are stored in `api._locations` and a dict of device(s) stored in `api.devices`.
 
 ### `refresh_device(device_id)`
 
