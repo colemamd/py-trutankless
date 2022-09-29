@@ -13,7 +13,7 @@ pip install pytrutankless
 In order to obtain an auth token, a TruTanklessApi object must be instantiated and `api.authenticate` called.
 
 ```python
-from pytrutankles.api import TruTanklessApiInterface(username, password, token[Optional])
+from pytrutankles.api import TruTanklessApiInterface(user, passwd, token[Optional])
 
 email = "your@email.here"
 password = "yoursecrethere"
