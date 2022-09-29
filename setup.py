@@ -5,12 +5,12 @@ from setuptools import setup, find_packages
 with open("README.md", encoding="utf-8") as f:
     readme = f.read()
 
-# with open("requirements.txt", encoding="utf-8") as f:
-#     install_requires = f.read().splitlines()
+with open("requirements.txt", encoding="utf-8") as f:
+    install_requires = f.read().splitlines()
 
 
-# with open("pytrutankless/__init__.py", encoding="utf-8") as f:
-#     version = re.findall(r"__version__ = \"(.+)\"", f.read())[0]
+with open("pytrutankless/__init__.py", encoding="utf-8") as f:
+    version = re.findall(r"__version__ = \"(.+)\"", f.read())[0]
 
 version = "0.4.2"
 
