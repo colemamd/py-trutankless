@@ -9,8 +9,10 @@ with open("README.md", encoding="utf-8") as f:
 #     install_requires = f.read().splitlines()
 
 
-with open("pytrutankless/__init__.py", encoding="utf-8") as f:
-    version = re.findall(r"__version__ = \"(.+)\"", f.read())[0]
+# with open("pytrutankless/__init__.py", encoding="utf-8") as f:
+#     version = re.findall(r"__version__ = \"(.+)\"", f.read())[0]
+
+version = "0.4.2"
 
 here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / "README.md").read_text(encoding="utf-8")
