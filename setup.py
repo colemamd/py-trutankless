@@ -1,8 +1,6 @@
 """Setup for pytrutankless."""
 from setuptools import find_packages, setup
 
-from pytrutankless import __version__
-
 LONG_DESC = open("README.md").read()
 PACKAGES = find_packages(exclude=["dist", "*.test", "*.test.*", "test"])
 REQUIREMENTS = list(val.strip() for val in open("requirements.txt"))
@@ -10,7 +8,6 @@ MIN_PY_VERSION = "3.8"
 
 setup(
     name="pytrutankless",
-    version=__version__,
     description="A Python client library for the TruTankless API",
     license="MIT",
     url="https://github.com/colemamd/pytrutankless",
