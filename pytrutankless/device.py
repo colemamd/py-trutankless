@@ -15,7 +15,9 @@ class Device:
         """Take a dict and update the stored _device_info based on the present dict fields."""
         if update.get("id") == self.device_id:
             for key, value in update.items():
-                _LOGGER.debug("Before update %s : %s", key, self._device_info.get(key))
+                _LOGGER.debug(
+                    "Before update %s : %s", key, self._device_info.get(key)
+                )
                 try:
                     if self._device_info[key] is not None:
                         self._device_info[key] = value
@@ -23,7 +25,9 @@ class Device:
                         return self._device_info
                 except Exception:
                     _LOGGER.error("Failed to update with message: %s", update)
-                _LOGGER.debug("After update %s : %s", key, self._device_info.get(key))
+                _LOGGER.debug(
+                    "After update %s : %s", key, self._device_info.get(key)
+                )
         else:
             _LOGGER.debug("Invalid update for device: %s", update)
 
@@ -58,30 +62,38 @@ class Device:
         return self._device_info["serial_number"]
 
     @property
-    def inlet_temperature(self) -> str:
+    def inlet_temperature(self) -> float:
         """Return device inlet temperature."""
         in_temp = float(self._device_info["current_data"]["inlet_temperature"])
         return in_temp
 
     @property
-    def outlet_temperature(self) -> str:
+    def outlet_temperature(self) -> float:
         """Return device outlet temperature."""
-        out_temp = float(self._device_info["current_data"]["outlet_temperature"])
+        out_temp = float(
+            self._device_info["current_data"]["outlet_temperature"]
+        )
         return out_temp
 
     @property
-    def temperature_set_point(self) -> str:
+    def temperature_set_point(self) -> float:
         """Return device temperature set point."""
         temp_set = round(
-            float(self._device_info["current_data"]["temperature_set_point"]), 2
+            float(self._device_info["current_data"]["temperature_set_point"]),
+            2,
         )
         return temp_set
 
     @property
-    def pending_temperature_set_point(self) -> str:
+    def pending_temperature_set_point(self) -> float:
         """Return device pending temperature set point."""
         pend_temp = round(
-            float(self._device_info["current_data"]["pending_temperature_set_point"]), 2
+            float(
+                self._device_info["current_data"][
+                    "pending_temperature_set_point"
+                ]
+            ),
+            2,
         )
         return pend_temp
 
@@ -96,13 +108,13 @@ class Device:
         return self._device_info["current_data"]["error_message"]
 
     @property
-    def pcb_temp(self) -> str:
+    def pcb_temp(self) -> float:
         """Return the pcb temperature of the device."""
         board_temp = float(self._device_info["current_data"]["pcb_temp"])
         return board_temp
 
     @property
-    def power_percentage(self) -> str:
+    def power_percentage(self) -> float:
         """Return device power percentage."""
         pow_perc = float(self._device_info["current_data"]["power_percentage"])
         return pow_perc

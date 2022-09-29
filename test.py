@@ -7,10 +7,11 @@ from pytrutankless.api import TruTanklessApiInterface
 
 async def main():
     email = "your@email.here"
-    password = "password"
+    password = "yourSECRETpa$$word"
     # email = input("Enter your email: ").strip()
     # password = getpass.getpass(prompt="Enter your password: ")
     this_api = TruTanklessApiInterface(user=email, passwd=password)
+    # this_api = TruTanklessApiInterface(token="253d0929210eede18505dfd731d15f777b0fb6aa")
     this_token = await this_api.authenticate()
     # print(api)
     await this_api.get_devices()
