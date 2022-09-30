@@ -43,7 +43,7 @@ async def get_token(
     return new_token
 
 
-async def refresh_token(session: ClientSession, token: Token) -> Token:
+async def refresh_token(http: ClientSession, token: Token) -> Token:
     """Obtain new access token using the refresh token."""
     ref_tok = token.ref_tok
     payload = {
@@ -52,7 +52,7 @@ async def refresh_token(session: ClientSession, token: Token) -> Token:
         "refresh_token": ref_tok,
     }
 
-    async with session.post(TOKEN_URL, data=payload) as _refresh_resp:
+    async with http.post(TOKEN_URL, data=payload) as _refresh_resp:
         _response = await _refresh_resp.json()
         token.access_token = _response["access_token"]
         HEADERS["Authorization"] = f"Bearer {token.access_token}"
@@ -64,8 +64,8 @@ class TruTanklessApiInterface:
 
     def __init__(
         self,
-        user: str,
-        passwd: str,
+        username: str,
+        password: str,
         token: Optional[Token] = None,
     ) -> None:
         """Create the TruTankless API interface object."""
@@ -73,39 +73,37 @@ class TruTanklessApiInterface:
         self._location_id: str
         self._user_id: str
         self._locations: Dict = {}
-        self._user = user
-        self._passwd = passwd
+        self._username = username
+        self._password = password
         self.devices: Dict = {}
-        self.session = ClientSession()
         self.token = token
 
-    async def authenticate(self) -> Token:
+    async def authenticate(self, username: str, password: str) -> Token:
         """Return valid access token."""
+        session = ClientSession()
         if self.token and self.token.expires_at > datetime.now(timezone.utc):
             return self.token
         if self.token and self.token.expires_at < datetime.now(timezone.utc):
             _LOGGER.debug("access token is expired. Refreshing access token.")
-            return await refresh_token(self.session, self.token)
+            return await refresh_token(session, self.token)
         self.token = await get_token(
-            self.session, username=self._user, password=self._passwd
+            session=session, username=username, password=password
         )
         HEADERS["Authorization"] = f"Bearer {self.token.access_token}"
         return self.token
 
-    async def get_devices(self):
+    async def get_devices(self, session: ClientSession):
         """Get a list of all the devices for this user and instantiate device objects."""
-        await self._get_locations()
+        await self._get_locations(session=session)
         for _devlist in self._locations[0]["devices"]:
             _dev_obj = Device(_devlist, self)
             self.devices[_dev_obj.device_id] = _dev_obj
         return self.devices
 
-    async def refresh_device(self, device: str):
+    async def refresh_device(self, device: str, session: ClientSession):
         """Fetch updated data for a device."""
         _device_url = f"{DEVICES_URL}{device}"
-        async with self.session.get(
-            _device_url, headers=self._headers
-        ) as refr:
+        async with session.get(_device_url, headers=self._headers) as refr:
             _refdata = await refr.json()
             _LOGGER.debug("Retrieved updated data from API: %s", _refdata)
             dev_obj = self.devices.get(_refdata.get("id", ""), None)
@@ -113,10 +111,8 @@ class TruTanklessApiInterface:
                 await dev_obj.update_device_info(_refdata)
         return dev_obj
 
-    async def _get_locations(self) -> None:
-        async with self.session.get(
-            LOCATIONS_URL, headers=self._headers
-        ) as resp:
+    async def _get_locations(self, session: ClientSession) -> None:
+        async with session.get(LOCATIONS_URL, headers=self._headers) as resp:
             if resp.status == 200:
                 self._locations = await resp.json()
                 _LOGGER.debug(self._locations)
