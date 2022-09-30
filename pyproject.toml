@@ -19,6 +19,7 @@ classifiers = [
 ]
 authors = [{name = "Matt Coleman", email = "mdcoleman001@gmail.com"}]
 dependencies = ["aiohttp"]
+dynamic = ["version"]
 
 [project.optional-dependencies]
 dev = ["black", "flake8", "isort", "pre-commit", "pytest", "pyyaml", "yamllint"]
