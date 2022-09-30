@@ -35,11 +35,11 @@ dev = ["black", "flake8", "isort", "pre-commit", "pytest", "pyyaml", "yamllint"]
 packages = ["pytrutankless"]
 
 [tool.setuptools.dynamic]
-version = {attr = "pytruankless.VERSION"}
+version = {attr = "pytrutankless.VERSION"}
 
 [tool.setuptools_scm]
 version_scheme = "python-simplified-semver"
 
 [tools.isort]
 profile = "black"
-src_paths = ["src/pytruankless", "tests"]
+src_paths = ["src/pytrutankless", "tests"]
