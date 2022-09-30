@@ -31,10 +31,14 @@ dev = ["black", "flake8", "isort", "pre-commit", "pytest", "pyyaml", "yamllint"]
 "Bug Reports" = "https://github.com/colemamd/pytrutankless/issues"
 "Release Notes" = "https://github.com/colemamd/pytrutankless/releases/)"
 
+[tool.setuptools]
+include_package_data = true
+
 [tool.setuptools.dynamic]
 version = {attr = "pytruankless.VERSION"}
 
 [tool.setuptools.packages.find]
+include = ["pytrutankless", "pytrutankless.*"]
 exclude = ["test", "test.*"]
 
 [tool.setuptools_scm]
