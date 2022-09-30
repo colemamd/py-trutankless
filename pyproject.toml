@@ -32,7 +32,7 @@ dev = ["black", "flake8", "isort", "pre-commit", "pytest", "pyyaml", "yamllint"]
 "Release Notes" = "https://github.com/colemamd/pytrutankless/releases/)"
 
 [tool.setuptools]
-include_package_data = true
+include-package-data = true
 
 [tool.setuptools.dynamic]
 version = {attr = "pytruankless.VERSION"}
