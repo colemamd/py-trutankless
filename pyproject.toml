@@ -19,7 +19,6 @@ classifiers = [
 ]
 authors = [{name = "Matt Coleman", email = "mdcoleman001@gmail.com"}]
 dependencies = ["aiohttp"]
-dynamic = ["version"]
 
 [project.optional-dependencies]
 dev = ["black", "flake8", "isort", "pre-commit", "pytest", "pyyaml", "yamllint"]
@@ -33,9 +32,6 @@ dev = ["black", "flake8", "isort", "pre-commit", "pytest", "pyyaml", "yamllint"]
 
 [tool.setuptools]
 packages = ["pytrutankless"]
-
-[tool.setuptools.dynamic]
-version = {attr = "pytrutankless.VERSION"}
 
 [tool.setuptools_scm]
 version_scheme = "python-simplified-semver"
