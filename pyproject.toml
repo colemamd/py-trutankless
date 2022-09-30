@@ -31,6 +31,9 @@ dev = ["black", "flake8", "isort", "pre-commit", "pytest", "pyyaml", "yamllint"]
 "Bug Reports" = "https://github.com/colemamd/pytrutankless/issues"
 "Release Notes" = "https://github.com/colemamd/pytrutankless/releases/)"
 
+[tool.setuptools]
+packages = ["pytrutankless"]
+
 [tool.setuptools.dynamic]
 version = {attr = "pytruankless.VERSION"}
 
